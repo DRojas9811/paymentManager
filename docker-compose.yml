@@ -1,0 +1,22 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./__data__/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=virtualaccountdb
+      - POSTGRES_USER=VRdiego
+      - POSTGRES_PASSWORD=Diego123
+  web:
+    build: 
+      context: ./docker
+      dockerfile: dockerfilepython
+    volumes:
+      - ./paymentManager/:/code/
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
